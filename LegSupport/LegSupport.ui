@@ -85,9 +85,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="label_leg_toweldline">
         <property name="text">
-         <string>支腿定位</string>
+         <string>支腿定位高度</string>
         </property>
        </widget>
       </item>
@@ -116,7 +116,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_13">
+       <widget class="QLineEdit" name="lineEdit_leg_toweldline">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -140,7 +140,7 @@
     <item row="0" column="3">
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLabel" name="label_leg_toweldline">
+       <widget class="QLabel" name="label_leg_H0">
         <property name="text">
          <string>支腿高度</string>
         </property>
@@ -165,7 +165,7 @@
     <item row="0" column="4">
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QLineEdit" name="lineEdit_leg_toweldline">
+       <widget class="QLineEdit" name="lineEdit_leg_H0">
         <property name="maximumSize">
          <size>
           <width>100</width>
@@ -711,8 +711,11 @@
       </layout>
      </widget>
     </item>
-    <item row="5" column="5" colspan="2">
+    <item row="5" column="5" colspan="2" alignment="Qt::AlignLeft">
      <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
       <property name="standardButtons">
        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
       </property>
