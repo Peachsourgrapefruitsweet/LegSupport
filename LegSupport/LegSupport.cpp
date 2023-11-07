@@ -26,7 +26,7 @@ LegSupport::LegSupport(std::unordered_map<std::string, std::string, MyHashFuncti
 		if (QWidget* childWidget = qobject_cast<QWidget*>(widget)) 
 		{
 			QString objectName = childWidget->objectName();
-			if (objectName.startsWith("lineEdit_")||objectName.startsWith("comboBox")|| objectName == "groupBox_LegType")
+			if (objectName.startsWith("lineEdit_")||objectName.startsWith("comboBox_")|| objectName == "groupBox_LegType")
 			{
 				inputWidget.push_back(childWidget);
 				qDebug() << QStringLiteral("控件名称：") << objectName;
@@ -60,6 +60,22 @@ LegSupport::LegSupport(std::unordered_map<std::string, std::string, MyHashFuncti
 		}
 	}
 	file.close();
+
+	QStringList key1s, key2s;
+	for (auto & it : inputWidget)
+	{
+		key1s.push_back(it->objectName().section('_', 1));
+	}
+	for (auto & it : readResult)
+	{
+		key2s.push_back(it.at(3));
+	}
+	QStringList key1NotInKey2 = key1s.toSet().subtract(key2s.toSet()).toList();
+	QStringList key2NotInKey1 = key2s.toSet().subtract(key1s.toSet()).toList();
+
+	qDebug() << QStringLiteral("多的控件key：") << key1NotInKey2;
+	qDebug() << QStringLiteral("少的控件key：") << key2NotInKey1;
+	
 }
 
 LegSupport::~LegSupport()
