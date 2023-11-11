@@ -3,6 +3,7 @@
 #include <QtWidgets/QDialog>
 #include <unordered_map>
 #include "ui_LegSupport.h"
+#include <QSqlDatabase>
 
 
 
@@ -31,14 +32,20 @@ public:
 
 	static bool DLG_data(bool UsesHashData, std::unordered_map<std::string, std::string, MyHashFunction>& contrast);
 public slots:
-
+	//选择支腿类型
 	void whileTypeA(bool status);
 	void whileTypeB(bool status);
 	void whileTypeC(bool status);
-	
+	//选择支腿规格
+	void choiceDN(QString &DN);
+	//点击确定
 	void invoke();
 private:
     Ui::LegSupportClass ui;
+
+	QSqlDatabase db_;//数据库
+
+	QString legType_;//支腿类型
 
 	std::unordered_map<std::string, std::string, MyHashFunction>& contrast;
 };
