@@ -5,8 +5,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 	std::unordered_map<std::string, std::string, MyHashFunction> contrast;
-	contrast["shell_id"] = "test1";
-	contrast["shell_thk"] = "test2";
+	contrast["shell_id"] = "99";
+	contrast["shell_thk"] = "99";
 	contrast["LegType"] = "A";
 	contrast["leg_kn"] = "99";
 	contrast["leg_dn"] = "300";

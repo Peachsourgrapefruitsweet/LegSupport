@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QMessageBox>
+#include <QPixmap>
 #include <QTextCodec>
 
 LegSupport::LegSupport(bool UsesHashData,std::unordered_map<std::string, std::string, MyHashFunction>& contrast, QWidget *parent)
@@ -26,6 +27,7 @@ LegSupport::LegSupport(bool UsesHashData,std::unordered_map<std::string, std::st
 		return;
 	}
 
+
 	//控件隐藏显示的实现
 	connect(ui_.radioButton_A, SIGNAL(toggled(bool)), this, SLOT(whileTypeA(bool)));
 	connect(ui_.radioButton_B, SIGNAL(toggled(bool)), this, SLOT(whileTypeB(bool)));
@@ -35,6 +37,9 @@ LegSupport::LegSupport(bool UsesHashData,std::unordered_map<std::string, std::st
 
 	//选择支腿规格自动显示
 	connect(ui_.comboBox_leg_dn, SIGNAL(currentTextChanged(const QString &)), this, SLOT(choiceDN(const QString &)));
+
+	//计算中心圆
+	connect(ui_.pushButton_ComputingCenterCircle,SIGNAL(clicked()),this,SLOT(coputingCenterCircle()));
 
 	//确认取消
 	QObject::connect(ui_.buttonBox, SIGNAL(accepted()), this, SLOT(invoke()));
@@ -199,8 +204,13 @@ void LegSupport::whileTypeA(bool status)
 {
 	if (status == true)
 	{
+
 		legType_ = "A";
 		// 加载图片
+		QPixmap pixmap(":/LegSupport/res/image/A_LegSupport.png");
+		ui_.label->setPixmap(pixmap);
+		ui_.label->setScaledContents(true);
+
 		QSqlQuery query(db_);
 		if (!query.exec("SELECT DN FROM A_LegSupport"))
 		{
@@ -254,6 +264,11 @@ void LegSupport::whileTypeC(bool status)
 	if (status == true)
 	{
 		legType_ = "C";
+		// 加载图片
+		QPixmap pixmap(":/LegSupport/res/image/C_LegSupport.png");
+		ui_.label->setPixmap(pixmap);
+		ui_.label->setScaledContents(true);
+
 		QSqlQuery query(db_);
 		if (!query.exec("SELECT DN FROM C_LegSupport"))
 		{
@@ -380,6 +395,24 @@ void LegSupport::choiceDN(const QString & DN)
 	else {
 		qCritical(query.lastError().text().toLocal8Bit());
 	}
+}
+
+void LegSupport::coputingCenterCircle()
+{
+	double leg_bcd_ang1 = atan(1.0 / 2.0);
+	double leg_bcd_ang2 = 0.25*M_PI - leg_bcd_ang1;
+	double leg_bcd_c1 = ui_.lineEdit_leg_dd->text().toDouble() / 3.0 / sin(leg_bcd_ang1);
+	double leg_bcd_c2 = leg_bcd_c1 * cos(leg_bcd_ang2);
+
+	double leg_bcd_y1 = 0.5*ui_.lineEdit_leg_bb->text().toDouble()*sqrt(2) - leg_bcd_c2;
+	double leg_bcd_c3 = ui_.lineEdit_shell_id->text().toDouble() + ui_.lineEdit_shell_thk->text().toDouble() + ui_.lineEdit_leg_deta->text().toDouble() + ui_.lineEdit_leg_dd->text().toDouble() / 3.0;
+	double leg_bcd_x1 = sqrt(leg_bcd_c3*leg_bcd_c3-leg_bcd_y1*leg_bcd_y1)+ leg_bcd_c1*sin(leg_bcd_ang2);
+
+	double leg_bcd = 2 * leg_bcd_x1 - 40;
+
+	QString currentHtml = ui_.textBrowser->toHtml(); //现在的内容
+	QString additionalContent = QStringLiteral("<p>中心圆：%1</p>").arg(QString::number(leg_bcd));//新的内容
+	ui_.textBrowser->setHtml(currentHtml + additionalContent);
 }
 
 void LegSupport::invoke()

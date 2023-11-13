@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/LegSupport">
-        <file>res/image/A_LegSupport.jpg</file>
-        <file>res/image/C_LegSupport.jpg</file>
+        <file>res/image/A_LegSupport.png</file>
+        <file>res/image/C_LegSupport.png</file>
     </qresource>
 </RCC>

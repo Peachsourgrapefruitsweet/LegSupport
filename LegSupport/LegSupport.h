@@ -41,6 +41,8 @@ public slots:
 	void whileTypeC(bool status);
 	//选择支腿规格
 	void choiceDN(const QString &DN);
+	//计算中心圆
+	void coputingCenterCircle();
 	//点击确定
 	void invoke();
 private:
